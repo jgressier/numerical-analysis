@@ -1,0 +1,27 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - caption: Basics-discretization
+    chapters:
+    - file: config # to debug and to be removed
+    - file: basics/intro
+    - file: basics/Finite-Difference-Method
+      sections:
+      - file: basics/FD-convergence
+      - file: basics/FD-building-scheme
+    - file: basics/Spectral-Collocation-Methods
+      sections:
+      - file: basics/chebyshev-convergence
+  #   - file: basics/Fourier-Methods
+  # - caption: Integration of dynamic systems
+  #   chapters:
+  #   - file: integration/explicit-methods
+  #   - file: integration/runge-kutta-methods
+  #   - file: integration/implicit-methods
+  #   - file: integration/Applications
+  # - caption: Convection equation
+  #   chapters:
+  #   - file: convection/stability-and-cfl
