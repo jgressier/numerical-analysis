@@ -17,9 +17,10 @@ jobs:
     permissions:
       contents: write  # Allows pushing changes
     steps:
-    - uses: actions/checkout@v2
-
-    # Install dependencies
+    uses: actions/checkout@v4
+    with:
+      ref: publish
+      fetch-depth: 0  # Ensures full history for pushing changes    # Install dependencies
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
@@ -30,7 +31,7 @@ jobs:
     # Build the book
     - name: Build the book
       run: |
-         make build
+        make build
 
     # Deploy the book's HTML to gh-pages branch
     # needs write permission (above or in settings/actions/general/workflow-permissions)
