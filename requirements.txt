@@ -1,3 +1,4 @@
+# requirements for jupyter book compilation
 jupyter-book
 matplotlib
 numpy
