@@ -11,7 +11,7 @@ A python package `numtoolkit` is co-develpped to make notebooks more concise and
 ## numtoolkit package 
 [![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/jgressier/numerical-analysis)
 
-[![PyPi Version](https://img.shields.io/pypi/v/numtoolit.svg?style=flat)](https://pypi.org/project/numtoolkit)
+[![PyPi Version](https://img.shields.io/pypi/v/numtoolkit.svg?style=flat)](https://pypi.org/project/numtoolkit)
 
 ## Credits
 
