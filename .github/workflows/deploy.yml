@@ -14,6 +14,8 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         python-version: [3.11]
+    permissions:
+      contents: write  # Allows pushing changes
     steps:
     - uses: actions/checkout@v2
 
