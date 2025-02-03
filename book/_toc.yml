@@ -6,12 +6,11 @@ root: intro
 parts:
   - caption: Basics-discretization
     chapters:
-    - file: config # to debug and to be removed
     - file: basics/intro
     - file: basics/Finite-Difference-Method
-      sections:
-      - file: basics/FD-convergence
-      - file: basics/FD-building-scheme
+      # sections:
+      # - file: basics/FD-convergence
+      # - file: basics/FD-building-scheme
     - file: basics/Spectral-Collocation-Methods
       sections:
       - file: basics/chebyshev-convergence
@@ -22,6 +21,8 @@ parts:
   #   - file: integration/runge-kutta-methods
   #   - file: integration/implicit-methods
   #   - file: integration/Applications
-  # - caption: Convection equation
-  #   chapters:
-  #   - file: convection/stability-and-cfl
+  - caption: Convection equation
+    chapters:
+    - file: convection/intro
+    - file: convection/upwind
+    #- file: convection/stability-and-cfl

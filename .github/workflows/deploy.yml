@@ -33,6 +33,7 @@ jobs:
          make build
 
     # Deploy the book's HTML to gh-pages branch
+    # needs write permission (above or in settings/actions/general/workflow-permissions)
     - name: GitHub Pages action
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
