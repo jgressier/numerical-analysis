@@ -17,6 +17,7 @@ jobs:
     permissions:
       contents: write  # Allows pushing changes
     steps:
+    - name: checkout the publish branch
     uses: actions/checkout@v4
     with:
       ref: publish
