@@ -18,10 +18,10 @@ jobs:
       contents: write  # Allows pushing changes
     steps:
     - name: checkout the publish branch
-    uses: actions/checkout@v4
-    with:
-      ref: publish
-      fetch-depth: 0  # Ensures full history for pushing changes    # Install dependencies
+      uses: actions/checkout@v4
+      with:
+        ref: publish
+        fetch-depth: 0  # Ensures full history for pushing changes    # Install dependencies
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
