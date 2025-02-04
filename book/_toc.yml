@@ -4,7 +4,7 @@
 format: jb-book
 root: intro
 parts:
-  - caption: Basics-discretization
+  - caption: Basics of discretization
     chapters:
     - file: basics/intro
     - file: basics/Finite-Difference-Method
@@ -14,6 +14,11 @@ parts:
     - file: basics/Spectral-Collocation-Methods
       sections:
       - file: basics/chebyshev-convergence
+  - caption: Signal processing
+    chapters:
+    - file: signal/intro
+    - file: signal/fft2d
+    - file: signal/POD1D
   #   - file: basics/Fourier-Methods
   # - caption: Integration of dynamic systems
   #   chapters:
@@ -26,3 +31,10 @@ parts:
     - file: convection/intro
     - file: convection/upwind
     #- file: convection/stability-and-cfl
+# - caption: Solving linear systems
+  #   chapters:
+  #   - file: linear-systems/intro
+  #   - file: linear-systems/direct-methods
+  #   - file: linear-systems/iterative-methods
+  #   - file: linear-systems/Applications
+  

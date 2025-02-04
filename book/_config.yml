@@ -3,7 +3,7 @@
 
 title: Numerical Analysis
 author: J. Gressier
-logo: logo.png
+logo: img/logo.png
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
