@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>&lt;no title&gt; &#8212; Numerical Analysis</title>
+    <title>POD of time signal &#8212; Numerical Analysis</title>
   
   
   
@@ -65,7 +65,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Introduction" href="../convection/intro.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="fft2d.html" />
+    <link rel="prev" title="2D FFT of space/time signal" href="fft2d.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -173,8 +173,10 @@
 </details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fft2d.html">2D FFT of space/time signal</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">POD of time signal</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Convection equation</span></p>
 <ul class="nav bd-sidenav">
@@ -380,9 +382,7 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -393,19 +393,11 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>POD of time signal</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -415,7 +407,9 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="pod-of-time-signal">
+<h1>POD of time signal<a class="headerlink" href="#pod-of-time-signal" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">splin</span>
@@ -465,7 +459,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2086/2954509547.py:43: UserWarning: frames=None which we can infer the length of, did not pass an explicit *save_count* and passed cache_frame_data=True.  To avoid a possibly unbounded cache, frame data caching has been disabled. To suppress this warning either pass `cache_frame_data=False` or `save_count=MAX_FRAMES`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2099/2954509547.py:43: UserWarning: frames=None which we can infer the length of, did not pass an explicit *save_count* and passed cache_frame_data=True.  To avoid a possibly unbounded cache, frame data caching has been disabled. To suppress this warning either pass `cache_frame_data=False` or `save_count=MAX_FRAMES`.
   ani = animation.FuncAnimation(fig, animate, interval=25, blit=True)
 </pre></div>
 </div>
@@ -503,7 +497,7 @@
 <span class="ne">RuntimeError</span>: Requested MovieWriter (ffmpeg) not available
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.animation.FuncAnimation at 0x7f643c13a990&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.animation.FuncAnimation at 0x7f7244691490&gt;
 </pre></div>
 </div>
 <img alt="../_images/1b9802acc7caca7b14cd3d23a4bbf2e0b587907b44a1b26eaeb3b28e8613c24f.png" src="../_images/1b9802acc7caca7b14cd3d23a4bbf2e0b587907b44a1b26eaeb3b28e8613c24f.png" />
@@ -558,19 +552,20 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.27279797e+02 1.08612071e+02 5.04089089e-06 4.47469002e-14
  4.22158999e-14 3.21870389e-14 2.79608020e-14 2.40106483e-14
  1.81826533e-14 1.53412180e-14]
-process time of pod pod_svd is 3.526e-02 seconds
+process time of pod pod_svd is 4.270e-02 seconds
 </pre></div>
 </div>
 <img alt="../_images/051fecafb40f61cffe1d4dceaec4e1c43b642ebf48bf1b13eae35f645c20bbc6.png" src="../_images/051fecafb40f61cffe1d4dceaec4e1c43b642ebf48bf1b13eae35f645c20bbc6.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1.27279797e+02 1.08612071e+02 4.99915635e-06 1.39084970e-06
  1.13254048e-06 7.56902547e-07 6.26975264e-07 5.72921764e-07
  5.42697881e-07 5.09152833e-07]
-process time of pod pod_cov is 3.169e-02 seconds
+process time of pod pod_cov is 1.042e-01 seconds
 </pre></div>
 </div>
 <img alt="../_images/ec58b14a1f928662c7e6e110e05b1538e13ec0919f6ec6f43e4ebcbdd9e322ba.png" src="../_images/ec58b14a1f928662c7e6e110e05b1538e13ec0919f6ec6f43e4ebcbdd9e322ba.png" />
 </div>
 </div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -608,7 +603,7 @@ process time of pod pod_cov is 3.169e-02 seconds
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">2D FFT of space/time signal</p>
       </div>
     </a>
     <a class="right-next"
@@ -626,22 +621,6 @@ process time of pod pod_cov is 3.169e-02 seconds
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-  </nav></div>
-
-</div></div>
               
             
           </div>
