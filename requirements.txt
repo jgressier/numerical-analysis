@@ -2,5 +2,5 @@
 jupyter-book
 matplotlib
 numpy
-numtoolkit
-bumpver
+numtoolkit >= 0.2.1
+bumpver 
