@@ -17,13 +17,17 @@ parts:
   - caption: Signal processing
     chapters:
     - file: signal/intro
+    - file: signal/fft-hanning
     - file: signal/fft2d
     - file: signal/POD1D
   #   - file: basics/Fourier-Methods
-  # - caption: Integration of dynamic systems
-  #   chapters:
+  - caption: Integration of dynamic systems
+    chapters:
+      - file: integration/intro
   #   - file: integration/explicit-methods
-  #   - file: integration/runge-kutta-methods
+      - file: integration/rk
+      - file: integration/stiffness
+      - file: integration/row-gl
   #   - file: integration/implicit-methods
   #   - file: integration/Applications
   - caption: Convection equation
