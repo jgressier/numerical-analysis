@@ -1,0 +1,872 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Stiffness &#8212; Numerical Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=1f784cae" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'integration/stiffness';</script>
+    <link rel="icon" href="../_static/logo.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ROW and Gauss-Legendre implicit method" href="row-gl.html" />
+    <link rel="prev" title="Runge-Kutta explicit methods" href="rk.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Numerical Analysis - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Numerical Analysis - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basics of discretization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../basics/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../basics/Finite-Difference-Method.html">Finite Difference Method</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../basics/Spectral-Collocation-Methods.html">Spectral Collocation Methods</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../basics/chebyshev-convergence.html">Spectral discretization</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../signal/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/fft-hanning.html">FFT of truncated signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/fft2d.html">2D FFT of space/time signal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/POD1D.html">POD of time signal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Integration of dynamic systems</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rk.html">Runge-Kutta explicit methods</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Stiffness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="row-gl.html">ROW and Gauss-Legendre implicit method</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Convection equation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../convection/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../convection/upwind.html">Upwind and Central scheme</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/jgressier/numerical-analysis/blob/publish/book/integration/stiffness.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/jgressier/numerical-analysis" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/jgressier/numerical-analysis/issues/new?title=Issue%20on%20page%20%2Fintegration/stiffness.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/integration/stiffness.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Stiffness</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hydrogen-oxygen-combustion-kinetics">Hydrogen-Oxygen Combustion Kinetics</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="stiffness">
+<h1>Stiffness<a class="headerlink" href="#stiffness" title="Link to this heading">#</a></h1>
+<section id="hydrogen-oxygen-combustion-kinetics">
+<h2>Hydrogen-Oxygen Combustion Kinetics<a class="headerlink" href="#hydrogen-oxygen-combustion-kinetics" title="Link to this heading">#</a></h2>
+<p>The combustion of hydrogen and oxygen can be described by a few elementary reactions, such as:
+1.	 <span class="math notranslate nohighlight">\(\text{H}_2 + O_2 \rightarrow 2OH \)</span>
+2.	 <span class="math notranslate nohighlight">\(2OH \rightarrow H_2O + O \)</span>
+3.	 <span class="math notranslate nohighlight">\(O + H_2 \rightarrow H + OH \)</span>
+4.	 <span class="math notranslate nohighlight">\(H + O_2 \rightarrow O + OH \)</span></p>
+<p>These reactions involve fast radical species (e.g., H, O, OH) and much slower species (e.g., H_2, O_2, H_2O). Due to the vastly different time scales (stiffness) between these reactions, a robust time integrator is required to accurately resolve the system over time.</p>
+<p>System of Ordinary Differential Equations (ODEs)</p>
+<p>The concentrations of species in this combustion reaction can be described by a system of coupled ODEs:</p>
+<p>Let:
+•	 y_1 = [\text{H}_2]  (concentration of hydrogen)
+•	 y_2 = [O_2]  (concentration of oxygen)
+•	 y_3 = [\text{OH}]
+•	 y_4 = [H]
+•	 y_5 = [O]
+•	 y_6 = [H_2O]</p>
+<p>Each species evolves over time based on the reaction rates and their current concentrations. A simplified set of ODEs might look like:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dy_1}{dt} = -k_1 y_1 y_2 + k_3 y_4 y_5\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{dy_2}{dt} = -k_1 y_1 y_2 + k_4 y_4 y_2\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{dy_3}{dt} = +2k_1 y_1 y_2 - k_2 y_3^2 + k_4 y_4 y_2\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{dy_4}{dt} = -k_3 y_4 y_5 + k_4 y_4 y_2\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{dy_5}{dt} = -k_3 y_4 y_5 + k_2 y_3^2\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{dy_6}{dt} = +k_2 y_3^2\]</div>
+<p>Where k_1, k_2, k_3, and k_4 are reaction rate constants for the four reactions. These rates may vary significantly, with some reactions being much faster than others, leading to stiffness in the equations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Re-import necessary libraries and redefine constants/functions after state reset</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
+
+<span class="c1"># Reaction rate constants (arbitrary units)</span>
+<span class="n">k1</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">k3</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">k4</span> <span class="o">=</span> <span class="mf">0.3</span>
+
+<span class="c1"># System of ODEs for simplified combustion</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">combustion_kinetics</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">y4</span><span class="p">,</span> <span class="n">y5</span><span class="p">,</span> <span class="n">y6</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="n">dy1_dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">k3</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y5</span>
+    <span class="n">dy2_dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">dy3_dt</span> <span class="o">=</span>  <span class="mi">2</span><span class="o">*</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">dy4_dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">k3</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y5</span> <span class="o">+</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">dy5_dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">k3</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y5</span> <span class="o">+</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">dy6_dt</span> <span class="o">=</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">dy1_dt</span><span class="p">,</span> <span class="n">dy2_dt</span><span class="p">,</span> <span class="n">dy3_dt</span><span class="p">,</span> <span class="n">dy4_dt</span><span class="p">,</span> <span class="n">dy5_dt</span><span class="p">,</span> <span class="n">dy6_dt</span><span class="p">]</span>
+
+<span class="c1"># Initial concentrations (arbitrary units)</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>  <span class="c1"># [H2, O2, OH, H, O, H2O]</span>
+
+<span class="c1"># Time points</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Solve the ODEs using an explicit method (RK45) and implicit method (BDF)</span>
+<span class="n">sol_explicit</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">combustion_kinetics</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;RK45&#39;</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+<span class="n">sol_implicit</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">combustion_kinetics</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;BDF&#39;</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+
+<span class="c1"># Define a function to compute the Jacobian matrix of the system at any point</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">jacobian</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">y4</span><span class="p">,</span> <span class="n">y5</span><span class="p">,</span> <span class="n">y6</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    
+    <span class="c1"># Partial derivatives for each species with respect to each other</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y1</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">k3</span> <span class="o">*</span> <span class="n">y5</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">k3</span> <span class="o">*</span> <span class="n">y4</span>
+    
+    <span class="n">J</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y4</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y2</span>
+    
+    <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">y1</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">y3</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k3</span> <span class="o">*</span> <span class="n">y5</span> <span class="o">+</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k3</span> <span class="o">*</span> <span class="n">y4</span>
+    
+    <span class="n">J</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k3</span> <span class="o">*</span> <span class="n">y5</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k3</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">y3</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">y3</span>
+    
+    <span class="k">return</span> <span class="n">J</span>
+
+<span class="c1"># Calculate the characteristic time step as the inverse of the largest eigenvalue</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">characteristic_time_step</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">jacobian</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
+    <span class="n">max_eigenvalue</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">max_eigenvalue</span> <span class="k">if</span> <span class="n">max_eigenvalue</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+<span class="c1"># Compute characteristic time steps along the solution</span>
+<span class="n">time_steps_explicit</span> <span class="o">=</span> <span class="p">[</span><span class="n">characteristic_time_step</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">sol_explicit</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+<span class="n">time_steps_implicit</span> <span class="o">=</span> <span class="p">[</span><span class="n">characteristic_time_step</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">sol_implicit</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+
+<span class="c1"># Plot the characteristic time step over time for both methods</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_explicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">time_steps_explicit</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Explicit (RK45)&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_implicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">time_steps_implicit</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Implicit (BDF)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Characteristic Time Step&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Characteristic Time Step Over Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3c17646a19464cf84c1a9b877e8e63cd0cf54ca67a75368300538dd83cdc8c5e.png" src="../_images/3c17646a19464cf84c1a9b877e8e63cd0cf54ca67a75368300538dd83cdc8c5e.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
+
+<span class="c1"># Reaction rate constants (arbitrary units)</span>
+<span class="n">k1</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">k3</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">k4</span> <span class="o">=</span> <span class="mf">0.3</span>
+
+<span class="c1"># System of ODEs for simplified combustion</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">combustion_kinetics</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">y4</span><span class="p">,</span> <span class="n">y5</span><span class="p">,</span> <span class="n">y6</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="n">dy1_dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">k3</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y5</span>
+    <span class="n">dy2_dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">dy3_dt</span> <span class="o">=</span>  <span class="mi">2</span><span class="o">*</span><span class="n">k1</span> <span class="o">*</span> <span class="n">y1</span> <span class="o">*</span> <span class="n">y2</span> <span class="o">-</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">dy4_dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">k3</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y5</span> <span class="o">+</span> <span class="n">k4</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y2</span>
+    <span class="n">dy5_dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">k3</span> <span class="o">*</span> <span class="n">y4</span> <span class="o">*</span> <span class="n">y5</span> <span class="o">+</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">dy6_dt</span> <span class="o">=</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">y3</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">dy1_dt</span><span class="p">,</span> <span class="n">dy2_dt</span><span class="p">,</span> <span class="n">dy3_dt</span><span class="p">,</span> <span class="n">dy4_dt</span><span class="p">,</span> <span class="n">dy5_dt</span><span class="p">,</span> <span class="n">dy6_dt</span><span class="p">]</span>
+
+<span class="c1"># Initial concentrations (arbitrary units)</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>  <span class="c1"># [H2, O2, OH, H, O, H2O]</span>
+
+<span class="c1"># Time points</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1"># Solve the ODEs using an explicit method (RK45)</span>
+<span class="n">sol_explicit</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">combustion_kinetics</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;RK45&#39;</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+
+<span class="c1"># Solve the ODEs using an implicit method (BDF)</span>
+<span class="n">sol_implicit</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">combustion_kinetics</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;BDF&#39;</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+
+<span class="c1"># Plot the results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Plot for Explicit method (RK45)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_explicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_explicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_explicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_explicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;O2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_explicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_explicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OH&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_explicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_explicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_explicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_explicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_explicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_explicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H2O&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Explicit Method (RK45)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Concentration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Plot for Implicit method (BDF)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_implicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_implicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_implicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_implicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;O2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_implicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_implicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OH&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_implicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_implicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_implicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_implicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_implicit</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_implicit</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;H2O&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Implicit Method (BDF)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Concentration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/af65b621acfbad4bcdd96a517897f50f3da4ec7ec8a6f81c9f3aaf06cfbea4a1.png" src="../_images/af65b621acfbad4bcdd96a517897f50f3da4ec7ec8a6f81c9f3aaf06cfbea4a1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Robertson (1966)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define rate constants for the Robertson problem (1966)</span>
+<span class="n">k1</span> <span class="o">=</span> <span class="mf">0.04</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="mf">1e4</span>
+<span class="n">k3</span> <span class="o">=</span> <span class="mf">3e7</span>
+
+<span class="c1"># Define the ODE system for Robertson&#39;s reaction mechanism</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">robertson_kinetics</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Robetson&#39;s reaction mechanism ODE system.</span>
+<span class="sd">        k1: A -&gt; B</span>
+<span class="sd">        k2: 2B -&gt; C + B</span>
+<span class="sd">        k3: B + C -&gt; A + C</span>
+<span class="sd">    Args:</span>
+<span class="sd">        t (_type_): _description_</span>
+<span class="sd">        y (_type_): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: change rate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="n">dA_dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span> <span class="o">*</span> <span class="n">A</span> <span class="o">+</span> <span class="n">k3</span> <span class="o">*</span> <span class="n">B</span><span class="o">*</span><span class="n">C</span>
+    <span class="n">dB_dt</span> <span class="o">=</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">A</span> <span class="o">-</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">B</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">k3</span> <span class="o">*</span> <span class="n">B</span><span class="o">*</span><span class="n">C</span>
+    <span class="n">dC_dt</span> <span class="o">=</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">B</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">dA_dt</span><span class="p">,</span> <span class="n">dB_dt</span><span class="p">,</span> <span class="n">dC_dt</span><span class="p">]</span>
+
+<span class="c1"># Initial concentrations (arbitrary units)</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>  <span class="c1"># [A, B, C]</span>
+
+<span class="c1"># Time points for evaluation</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>  <span class="c1"># From 1e-6 to 10 (log scale)</span>
+
+<span class="c1"># Solve the ODEs using the implicit method (BDF) for stability with stiff system</span>
+<span class="n">sol_robertson</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">robertson_kinetics</span><span class="p">,</span> <span class="p">[</span><span class="n">t_eval</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t_eval</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;BDF&#39;</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+
+<span class="c1"># Plot the concentrations over time</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_robertson</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_robertson</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;[A]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_robertson</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_robertson</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;[B]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_robertson</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol_robertson</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;[C]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Concentration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Concentration of Species Over Time (Robertson Problem)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ed3d72b1bcda5f37054f70bf449101d15e8c100849bdb6aa46d1501816c93b1c.png" src="../_images/ed3d72b1bcda5f37054f70bf449101d15e8c100849bdb6aa46d1501816c93b1c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Redefine the Jacobian function for Robertson&#39;s problem</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">robertson_jacobian</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">y</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    
+    <span class="c1"># Partial derivatives for each species with respect to each other</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k1</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">k3</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">k1</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">B</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">B</span>
+    <span class="n">J</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">k3</span>
+    
+    <span class="k">return</span> <span class="n">J</span>
+
+<span class="c1"># Calculate the characteristic time step as the inverse of the largest eigenvalue</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">characteristic_time_step_robertson</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">J</span> <span class="o">=</span> <span class="n">robertson_jacobian</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">eigenvalues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">J</span><span class="p">)</span>
+    <span class="n">max_eigenvalue</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">eigenvalues</span><span class="p">))</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">max_eigenvalue</span> <span class="k">if</span> <span class="n">max_eigenvalue</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+<span class="c1"># Compute characteristic time steps along the solution (only for the BDF solution)</span>
+<span class="n">time_steps_implicit_robertson</span> <span class="o">=</span> <span class="p">[</span><span class="n">characteristic_time_step_robertson</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">sol_implicit_robertson</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+
+<span class="c1"># Plot the characteristic time step over time for the BDF method</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol_implicit_robertson</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">time_steps_implicit_robertson</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Implicit (BDF)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Characteristic Time Step&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Characteristic Time Step Over Time (Robertson Problem, BDF)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">24</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">max_eigenvalue</span> <span class="k">if</span> <span class="n">max_eigenvalue</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="c1"># Compute characteristic time steps along the solution (only for the BDF solution)</span>
+<span class="ne">---&gt; </span><span class="mi">24</span> <span class="n">time_steps_implicit_robertson</span> <span class="o">=</span> <span class="p">[</span><span class="n">characteristic_time_step_robertson</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">sol_implicit_robertson</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="c1"># Plot the characteristic time step over time for the BDF method</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="ne">NameError</span>: name &#39;sol_implicit_robertson&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./integration"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="rk.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Runge-Kutta explicit methods</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="row-gl.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">ROW and Gauss-Legendre implicit method</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hydrogen-oxygen-combustion-kinetics">Hydrogen-Oxygen Combustion Kinetics</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By J. Gressier
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

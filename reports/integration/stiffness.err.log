@@ -1,0 +1,69 @@
+Traceback (most recent call last):
+  File "/home/runner/work/numerical-analysis/numerical-analysis/venv/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/home/runner/work/numerical-analysis/numerical-analysis/venv/lib/python3.11/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/numerical-analysis/numerical-analysis/venv/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.11/x64/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/runner/work/numerical-analysis/numerical-analysis/venv/lib/python3.11/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/home/runner/work/numerical-analysis/numerical-analysis/venv/lib/python3.11/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/runner/work/numerical-analysis/numerical-analysis/venv/lib/python3.11/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Redefine the Jacobian function for Robertson's problem
+def robertson_jacobian(y):
+    A, B, C = y
+    J = np.zeros((3, 3))
+    
+    # Partial derivatives for each species with respect to each other
+    J[0, 0] = -k1
+    J[0, 2] = k3
+    J[1, 0] = k1
+    J[1, 1] = -2 * k2 * B
+    J[2, 1] = 2 * k2 * B
+    J[2, 2] = -k3
+    
+    return J
+
+# Calculate the characteristic time step as the inverse of the largest eigenvalue
+def characteristic_time_step_robertson(y):
+    J = robertson_jacobian(y)
+    eigenvalues = np.linalg.eigvals(J)
+    max_eigenvalue = np.max(np.abs(eigenvalues))
+    return 1 / max_eigenvalue if max_eigenvalue != 0 else np.inf
+
+# Compute characteristic time steps along the solution (only for the BDF solution)
+time_steps_implicit_robertson = [characteristic_time_step_robertson(y) for y in sol_implicit_robertson.y.T]
+
+# Plot the characteristic time step over time for the BDF method
+plt.figure(figsize=(8, 5))
+plt.plot(sol_implicit_robertson.t, time_steps_implicit_robertson, label='Implicit (BDF)')
+plt.yscale('log')
+plt.xscale('log')
+plt.xlabel('Time')
+plt.ylabel('Characteristic Time Step')
+plt.title('Characteristic Time Step Over Time (Robertson Problem, BDF)')
+plt.legend()
+plt.show()
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[5], line 24[0m
+[1;32m     21[0m     [38;5;28;01mreturn[39;00m [38;5;241m1[39m [38;5;241m/[39m max_eigenvalue [38;5;28;01mif[39;00m max_eigenvalue [38;5;241m!=[39m [38;5;241m0[39m [38;5;28;01melse[39;00m np[38;5;241m.[39minf
+[1;32m     23[0m [38;5;66;03m# Compute characteristic time steps along the solution (only for the BDF solution)[39;00m
+[0;32m---> 24[0m time_steps_implicit_robertson [38;5;241m=[39m [characteristic_time_step_robertson(y) [38;5;28;01mfor[39;00m y [38;5;129;01min[39;00m [43msol_implicit_robertson[49m[38;5;241m.[39my[38;5;241m.[39mT]
+[1;32m     26[0m [38;5;66;03m# Plot the characteristic time step over time for the BDF method[39;00m
+[1;32m     27[0m plt[38;5;241m.[39mfigure(figsize[38;5;241m=[39m([38;5;241m8[39m, [38;5;241m5[39m))
+
+[0;31mNameError[0m: name 'sol_implicit_robertson' is not defined
+

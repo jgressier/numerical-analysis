@@ -64,10 +64,11 @@
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'convection/intro';</script>
+    <link rel="icon" href="../_static/logo.png"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Upwind and Central scheme" href="upwind.html" />
-    <link rel="prev" title="POD of time signal" href="../signal/POD1D.html" />
+    <link rel="prev" title="ROW and Gauss-Legendre implicit method" href="../integration/row-gl.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -144,8 +145,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="Numerical Analysis - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Numerical Analysis - Home"/>
   
-    <p class="title logo__title">Numerical Analysis</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -177,8 +184,16 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../signal/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/fft-hanning.html">FFT of truncated signals</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../signal/fft2d.html">2D FFT of space/time signal</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../signal/POD1D.html">POD of time signal</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Integration of dynamic systems</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../integration/intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration/rk.html">Runge-Kutta explicit methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration/stiffness.html">Stiffness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration/row-gl.html">ROW and Gauss-Legendre implicit method</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Convection equation</span></p>
 <ul class="current nav bd-sidenav">
@@ -454,8 +469,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f83b077a790&gt;,
- &lt;matplotlib.lines.Line2D at 0x7f83b0778ed0&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f7958314a10&gt;,
+ &lt;matplotlib.lines.Line2D at 0x7f7958331e10&gt;]
 </pre></div>
 </div>
 <img alt="../_images/218ab128f7967b0b0966c08da56b7e75beafb32aa9ecdbdbe6331c3bec5a9d85.png" src="../_images/218ab128f7967b0b0966c08da56b7e75beafb32aa9ecdbdbe6331c3bec5a9d85.png" />
@@ -495,12 +510,12 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../signal/POD1D.html"
+       href="../integration/row-gl.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">POD of time signal</p>
+        <p class="prev-next-title">ROW and Gauss-Legendre implicit method</p>
       </div>
     </a>
     <a class="right-next"
