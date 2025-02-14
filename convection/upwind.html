@@ -191,6 +191,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../integration/intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../integration/rk.html">Runge-Kutta explicit methods</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../integration/stiffness.html">Stiffness</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../integration/row-gl.html">ROW and Gauss-Legendre implicit method</a></li>
 </ul>
@@ -421,8 +422,8 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-by-the-explicit-euler-method-decentrated-diagram">Integration by the explicit EULER method, decentrated diagram</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lax-wendroff-diagram">Lax Wendroff diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-by-the-explicit-euler-method-upwind-scheme">Integration by the explicit euler method, upwind scheme</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lax-wendroff-scheme">Lax Wendroff scheme</a></li>
 </ul>
             </nav>
         </div>
@@ -464,8 +465,8 @@
 </div>
 </div>
 </div>
-<section id="integration-by-the-explicit-euler-method-decentrated-diagram">
-<h2>Integration by the explicit EULER method, decentrated diagram<a class="headerlink" href="#integration-by-the-explicit-euler-method-decentrated-diagram" title="Link to this heading">#</a></h2>
+<section id="integration-by-the-explicit-euler-method-upwind-scheme">
+<h2>Integration by the explicit euler method, upwind scheme<a class="headerlink" href="#integration-by-the-explicit-euler-method-upwind-scheme" title="Link to this heading">#</a></h2>
 <p>We propose to integrate the convection equation by the classic upwind scheme in the 1st order in time and space
 $<span class="math notranslate nohighlight">\( q_i^{n+1} = q_i^n-a \, \delta t {\left(\frac {q^n_i-q^n_ {i-1} {\delta x} \right)} \)</span> $</p>
 <ol class="arabic simple">
@@ -512,17 +513,13 @@ You can play on <span class="math notranslate nohighlight">\( \delta t \)</span>
 </div>
 </div>
 </section>
-<section id="lax-wendroff-diagram">
-<h2>Lax Wendroff diagram<a class="headerlink" href="#lax-wendroff-diagram" title="Link to this heading">#</a></h2>
+<section id="lax-wendroff-scheme">
+<h2>Lax Wendroff scheme<a class="headerlink" href="#lax-wendroff-scheme" title="Link to this heading">#</a></h2>
 <p>Lax and Wendroff’s scheme can be written</p>
 <div class="math notranslate nohighlight">
 \[ q_i^{n+1} = q_i^n-\frac12 \sigma \left( q^n_ {i+1} -q^n_ {i-1} \right)
  +\frac12 \sigma^2 \left( q^n_ {i+1} -2q^n_ {i}+q^n_ {i-1} \right) \]</div>
 <p>With <span class="math notranslate nohighlight">\( \sigma = a \, \delta t/\delta x \)</span></p>
-<ol class="arabic simple">
-<li><p>Implement this diagram in the code below.</p></li>
-<li><p>What is his behavior (precision and stability)?</p></li>
-</ol>
 <p>This diagram is visibly more precise (blatant on dissipation). But there are some oscillations (this may depend on the stiffness of the solution transported.</p>
 <ol class="arabic simple" start="3">
 <li><p>What is the origin of the different terms of this equation? Can we determine the order of precision?</p></li>
@@ -626,8 +623,8 @@ You can play on <span class="math notranslate nohighlight">\( \delta t \)</span>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-by-the-explicit-euler-method-decentrated-diagram">Integration by the explicit EULER method, decentrated diagram</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lax-wendroff-diagram">Lax Wendroff diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-by-the-explicit-euler-method-upwind-scheme">Integration by the explicit euler method, upwind scheme</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lax-wendroff-scheme">Lax Wendroff scheme</a></li>
 </ul>
   </nav></div>
 
