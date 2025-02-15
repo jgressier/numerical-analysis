@@ -34,6 +34,7 @@ parts:
     chapters:
     - file: convection/intro
     - file: convection/upwind
+    - file: convection/vneumann-analysis
     #- file: convection/stability-and-cfl
 # - caption: Solving linear systems
   #   chapters:
