@@ -440,6 +440,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability-of-exponential-expansions">stability of exponential expansions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#butcher-arrays">Butcher arrays</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-for-convection-or-non-dissipative-physics">error for convection or non-dissipative physics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimized-runge-kutta-methods">Optimized Runge-Kutta methods</a></li>
 </ul>
             </nav>
         </div>
@@ -557,9 +558,9 @@ document.write(`
 <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ylab</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">axr</span><span class="p">,</span> <span class="n">axi</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;dissipation error&#39;</span><span class="p">,</span> <span class="s1">&#39;dispersion error&#39;</span><span class="p">]):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;${\rm cfl}=|\lambda|\delta t$&quot;</span><span class="p">)</span> <span class="p">;</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylab</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-    <span class="c1">#ax.set_ylim(1e-4, 2e1)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">2e1</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">solver</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">euler</span><span class="p">,</span> <span class="n">rk3</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Euler&#39;</span><span class="p">,</span> <span class="s1">&#39;RK3ssp&#39;</span><span class="p">]):</span>
-    <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">propagator</span><span class="p">(</span><span class="n">cfl</span><span class="p">))</span><span class="o">-</span><span class="n">cfl</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">propagator</span><span class="p">(</span><span class="n">cfl</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">cfl</span><span class="p">))</span>
     <span class="n">axr</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfl</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">real</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
     <span class="n">axi</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfl</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">imag</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
 <span class="n">axr</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span> <span class="p">;</span> <span class="n">axi</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
@@ -567,7 +568,50 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/c9f362cce2be6148f4a3245362d7edd9feb5c5c3fadfa97a65b0d2f862a05ef7.png" src="../_images/c9f362cce2be6148f4a3245362d7edd9feb5c5c3fadfa97a65b0d2f862a05ef7.png" />
+<img alt="../_images/55a3fac510e5c8ab03cdf91f111b135a787c0acba33a4db751ae30823aba1365.png" src="../_images/55a3fac510e5c8ab03cdf91f111b135a787c0acba33a4db751ae30823aba1365.png" />
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that the drop of RK3 method is due to change of sign of dissipative effect. It is then the stability threshold for imaginary eigenvalues.</p>
+</div>
+</section>
+<section id="optimized-runge-kutta-methods">
+<h2>Optimized Runge-Kutta methods<a class="headerlink" href="#optimized-runge-kutta-methods" title="Link to this heading">#</a></h2>
+<p>Increasing the number of stage to increase the order of the scheme is the basic idea of Runge-Kutta methods and leads to an unique scheme for linear operators (defined by the expansion of exponential). But It can also be tuned to provide some other parameters that can be tuned to optimize the scheme. As an example, the following RK25 and RK26 (from Bogey and Bailly) are two second order schemes that are optimized for dispersion and dissipation errors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numtoolkit.integration</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">numint</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">numint</span><span class="o">.</span><span class="n">all_erk</span><span class="p">)</span>
+
+<span class="n">cfl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">geomspace</span><span class="p">(</span><span class="mf">5e-2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">axr</span><span class="p">,</span> <span class="n">axi</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ylab</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">axr</span><span class="p">,</span> <span class="n">axi</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;dissipation error&#39;</span><span class="p">,</span> <span class="s1">&#39;dispersion error&#39;</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;${\rm cfl}=|\lambda|\delta t$&quot;</span><span class="p">)</span> <span class="p">;</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylab</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="mf">2e1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">solvermethod</span> <span class="ow">in</span> <span class="n">numint</span><span class="o">.</span><span class="n">all_erk</span><span class="p">:</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">solvermethod</span><span class="p">()</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">propagator</span><span class="p">(</span><span class="n">cfl</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">cfl</span><span class="p">))</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">axr</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfl</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">real</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">axi</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">cfl</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">err</span><span class="o">.</span><span class="n">imag</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="n">axr</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span> <span class="p">;</span> <span class="n">axi</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;class &#39;numtoolkit.integration.rk3ssp&#39;&gt;, &lt;class &#39;numtoolkit.integration.rk4&#39;&gt;, &lt;class &#39;numtoolkit.integration.lsrk25bb&#39;&gt;, &lt;class &#39;numtoolkit.integration.lsrk26bb&#39;&gt;, &lt;class &#39;numtoolkit.integration.lsrk4&#39;&gt;]
+rk3ssp
+rk4
+lsrk25bb
+lsrk26bb
+lsrk4
+</pre></div>
+</div>
+<img alt="../_images/a8abcab25ebefab42a51249fa88631c9ba3a4da48deec2e92e66d97faac54eb9.png" src="../_images/a8abcab25ebefab42a51249fa88631c9ba3a4da48deec2e92e66d97faac54eb9.png" />
 </div>
 </div>
 </section>
@@ -640,6 +684,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability-of-exponential-expansions">stability of exponential expansions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#butcher-arrays">Butcher arrays</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-for-convection-or-non-dissipative-physics">error for convection or non-dissipative physics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimized-runge-kutta-methods">Optimized Runge-Kutta methods</a></li>
 </ul>
   </nav></div>
 
