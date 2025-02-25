@@ -1,0 +1,4 @@
+# requirements for numtoolkit package
+matplotlib
+numpy
+bumpver 
